@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/numerology", "destination": "/numerology.html" }
+  ]
+}
