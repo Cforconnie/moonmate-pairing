@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moonmate 沐月 · 寵物生命靈數百科</title>
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --bg: #CFE5D5;
+    --bg2: #B8D6B2;
+    --bg3: #A6D2C8;
+    --teal: #6EA89E;
+    --deep: #2A3D35;
+    --gold: #9B7E5A;
+    --white: #FAF9F6;
+    --card: #E8F5EE;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--deep);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    text-align: center;
+    padding: 60px 24px 40px;
+    position: relative;
+  }
+
+  .header-moon {
+    width: 120px; height: 120px;
+    margin: 0 auto 20px;
+    opacity: 0;
+    animation: fadeDown 0.8s ease 0.1s forwards;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 20px rgba(110,168,158,0.25));
+  }
+
+  .header-brand {
+    font-family: 'Pacifico', cursive;
+    font-size: clamp(32px, 6vw, 56px);
+    font-weight: 400;
+    letter-spacing: 6px;
+    color: var(--deep);
+    opacity: 0;
+    animation: fadeDown 0.8s ease 0.2s forwards;
+  }
+
+  .header-sub {
+    font-size: 11px;
+    letter-spacing: 4px;
+    color: var(--teal);
+    margin-top: 6px;
+    opacity: 0;
+    animation: fadeDown 0.8s ease 0.3s forwards;
+  }
+
+  .header-divider {
+    width: 32px; height: 0.5px;
+    background: var(--gold);
+    margin: 20px auto;
+    opacity: 0;
+    animation: fadeDown 0.8s ease 0.4s forwards;
+  }
+
+  .header-desc {
+    font-size: 14px;
+    font-style: normal;
+    color: var(--teal);
+    line-height: 1.9;
+    max-width: 400px;
+    margin: 0 auto;
+    opacity: 0;
+    animation: fadeDown 0.8s ease 0.5s forwards;
+  }
+
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── GRID ── */
+  .grid-section {
+    padding: 40px 24px 80px;
+    max-width: 880px;
+    margin: 0 auto;
+  }
+
+  .grid-label {
+    font-size: 10px;
+    letter-spacing: 4px;
+    color: var(--gold);
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .num-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+
+  @media (max-width: 600px) {
+    .num-grid { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  }
+
+  @media (max-width: 380px) {
+    .num-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .num-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 24px 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 1px solid transparent;
+    opacity: 0;
+    animation: fadeUp 0.6s ease forwards;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .num-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--bg3);
+    opacity: 0;
+    transition: opacity 0.3s;
+    border-radius: 16px;
+  }
+
+  .num-card:hover::before { opacity: 0.15; }
+
+  .num-card:hover {
+    border-color: var(--teal);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(42,61,53,0.1);
+  }
+
+  .num-card.master {
+    background: linear-gradient(135deg, var(--white) 0%, #EDF7F3 100%);
+    border-color: var(--gold);
+  }
+
+  .num-card.active {
+    border-color: var(--teal);
+    background: var(--bg3);
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(42,61,53,0.15);
+  }
+
+  .num-card.active::before { opacity: 0; }
+
+  .num-number {
+    font-family: 'Pacifico', cursive;
+    font-size: 36px;
+    font-weight: 400;
+    color: var(--deep);
+    line-height: 1;
+    margin-bottom: 6px;
+    position: relative; z-index: 1;
+  }
+
+  .num-en {
+    font-size: 8px;
+    letter-spacing: 1.5px;
+    color: var(--gold);
+    margin-bottom: 2px;
+    position: relative; z-index: 1;
+  }
+
+  .num-zh {
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--deep);
+    position: relative; z-index: 1;
+  }
+
+  .num-energy {
+    display: inline-block;
+    font-size: 9px;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-top: 8px;
+    position: relative; z-index: 1;
+  }
+
+  .e-fire { background: #FAEEDA; color: #7A4810; }
+  .e-earth { background: #E8F0DC; color: #3A5020; }
+  .e-water { background: #DCF0EC; color: #1A5048; }
+  .e-wind { background: #E8E4F8; color: #3A3080; }
+  .e-light { background: #F0EDE4; color: #5A5040; }
+
+  .master-badge {
+    position: absolute;
+    top: 8px; right: 8px;
+    font-size: 8px;
+    letter-spacing: 1px;
+    color: var(--gold);
+    background: rgba(155,126,90,0.1);
+    padding: 2px 6px;
+    border-radius: 6px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── DETAIL PANEL ── */
+  .detail-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(42,61,53,0.5);
+    z-index: 100;
+    backdrop-filter: blur(4px);
+    animation: overlayIn 0.3s ease;
+  }
+
+  .detail-overlay.show { display: flex; align-items: center; justify-content: center; padding: 20px; }
+
+  @keyframes overlayIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .detail-panel {
+    background: var(--white);
+    border-radius: 24px;
+    max-width: 560px;
+    width: 100%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+    animation: panelIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  @keyframes panelIn {
+    from { opacity: 0; transform: scale(0.92) translateY(20px); }
+    to { opacity: 1; transform: scale(1) translateY(0); }
+  }
+
+  .detail-header {
+    padding: 40px 40px 32px;
+    border-bottom: 0.5px solid var(--bg2);
+    position: relative;
+  }
+
+  .detail-close {
+    position: absolute;
+    top: 20px; right: 20px;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    border: 0.5px solid var(--bg2);
+    background: transparent;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    color: var(--teal);
+    transition: all 0.2s;
+  }
+
+  .detail-close:hover {
+    background: var(--bg);
+    border-color: var(--teal);
+  }
+
+  .detail-num {
+    font-family: 'Pacifico', cursive;
+    font-size: 72px;
+    font-weight: 400;
+    color: var(--deep);
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+
+  .detail-en {
+    font-size: 10px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 4px;
+  }
+
+  .detail-zh {
+    font-family: 'Nunito', sans-serif;
+    font-size: 28px;
+    font-weight: 400;
+    color: var(--deep);
+    margin-bottom: 12px;
+  }
+
+  .detail-energy-tag {
+    display: inline-block;
+    font-size: 10px;
+    padding: 4px 12px;
+    border-radius: 20px;
+  }
+
+  .detail-body {
+    padding: 32px 40px 40px;
+  }
+
+  .detail-copy {
+    font-size: 15px;
+    font-style: normal;
+    color: var(--deep);
+    line-height: 2.2;
+    margin-bottom: 32px;
+  }
+
+  .detail-copy p { margin-bottom: 4px; }
+
+  .detail-section-label {
+    font-size: 9px;
+    letter-spacing: 3px;
+    color: var(--gold);
+    margin-bottom: 12px;
+  }
+
+  .crystal-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 32px;
+  }
+
+  .crystal-item {
+    background: var(--card);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+  }
+
+  .crystal-icon { font-size: 24px; margin-bottom: 6px; }
+
+  .crystal-img-wrap {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 10px;
+    background: var(--bg);
+  }
+
+  .crystal-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .crystal-img:hover { transform: scale(1.05); }
+
+  .crystal-img-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: var(--bg);
+  }
+
+  .crystal-img-label {
+    font-size: 9px;
+    letter-spacing: 1px;
+    color: var(--teal);
+    opacity: 0.6;
+  }
+
+  .crystal-name {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--deep);
+    margin-bottom: 4px;
+  }
+
+  .crystal-role {
+    font-size: 10px;
+    color: var(--teal);
+    letter-spacing: 1px;
+  }
+
+  .detail-trait-box {
+    background: var(--bg);
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 24px;
+  }
+
+  .detail-trait-title {
+    font-size: 10px;
+    letter-spacing: 2px;
+    color: var(--gold);
+    margin-bottom: 10px;
+  }
+
+  .detail-traits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .trait-tag {
+    font-size: 11px;
+    padding: 4px 12px;
+    background: var(--white);
+    border-radius: 20px;
+    color: var(--deep);
+    border: 0.5px solid var(--bg2);
+  }
+
+  .detail-cta {
+    width: 100%;
+    padding: 16px;
+    background: var(--teal);
+    color: var(--white);
+    border: none;
+    border-radius: 12px;
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    letter-spacing: 2px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+
+  .detail-cta:hover { background: var(--deep); }
+
+  /* scrollbar */
+  .detail-panel::-webkit-scrollbar { width: 4px; }
+  .detail-panel::-webkit-scrollbar-track { background: transparent; }
+  .detail-panel::-webkit-scrollbar-thumb { background: var(--bg2); border-radius: 2px; }
+
+  /* footer */
+  footer {
+    text-align: center;
+    padding: 40px 24px;
+    border-top: 0.5px solid var(--bg2);
+  }
+
+  .footer-brand {
+    font-family: 'Pacifico', cursive;
+    font-size: 20px;
+    letter-spacing: 5px;
+    color: var(--deep);
+    margin-bottom: 4px;
+  }
+
+  .footer-slogan {
+    font-size: 11px;
+    font-style: normal;
+    color: var(--teal);
+    letter-spacing: 2px;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <img src="https://raw.githubusercontent.com/Cforconnie/moonmate-pairing/main/MOONMATE.png" alt="Moonmate Logo" class="header-moon">
+  <h1 class="header-brand">MOONMATE</h1>
+  <p class="header-sub">寵物生命靈數百科</p>
+  <div class="header-divider"></div>
+  <p class="header-desc">每個毛孩都有屬於自己的靈數能量<br>點擊數字，發現牠的靈魂密碼</p>
+</header>
+
+<!-- GRID -->
+<div class="grid-section">
+  <p class="grid-label">LIFE NUMBERS · 生命靈數</p>
+  <div class="num-grid" id="numGrid"></div>
+</div>
+
+<!-- DETAIL OVERLAY -->
+<div class="detail-overlay" id="overlay" onclick="closeDetail(event)">
+  <div class="detail-panel" id="detailPanel">
+    <div class="detail-header">
+      <button class="detail-close" onclick="closePanel()">✕</button>
+      <div class="detail-num" id="dNum"></div>
+      <div class="detail-en" id="dEn"></div>
+      <div class="detail-zh" id="dZh"></div>
+      <span class="detail-energy-tag" id="dEnergy"></span>
+    </div>
+    <div class="detail-body">
+      <div class="detail-copy" id="dCopy"></div>
+
+      <p class="detail-section-label">對應水晶</p>
+      <div class="crystal-grid" id="dCrystals"></div>
+
+      <p id="dCrystalDesc" style="font-size:13px;color:var(--teal);line-height:1.8;margin-bottom:24px;padding:12px 16px;background:var(--card);border-radius:8px;"></p>
+
+      <div class="detail-trait-box">
+        <p class="detail-trait-title">能量特質</p>
+        <div class="detail-traits" id="dTraits"></div>
+      </div>
+
+      <button class="detail-cta" onclick="window.open('https://moonmate-pairing.vercel.app','_blank')">
+        測你們的人寵靈數配對 →
+      </button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <p class="footer-brand">MOONMATE</p>
+  <p class="footer-slogan">沐月 · One moon. Two souls.</p>
+</footer>
+
+<script>
+const energyClass = {
+  '火': 'e-fire', '土': 'e-earth', '水': 'e-water', '風': 'e-wind', '光': 'e-light'
+};
+
+const data = [
+  {
+    num: 1, en: 'THE PIONEER', zh: '先行者', energy: '火',
+    tag: '傲嬌總裁',
+    voice: '「這家裡我說了算，你負責開罐罐就好。」',
+    copy: ['牠知道自己要什麼。', '從來不需要你告訴牠。', '走在前面，偶爾回頭確認你還在。', '這不是任性，是牠給你的方式。'],
+    crystals: [{ name: '太陽石', role: '主石 · 注入勇氣能量', icon: '🟡', imgUrl: '' }, { name: '紅碧玉', role: '副石 · 守護領導氣場', icon: '🔴', imgUrl: '' }],
+    crystalDesc: '注入勇氣能量，守護總裁的領導氣場與健康活力。',
+    traits: ['領導力強', '獨立自主', '行動派', '開創精神', '充滿熱情']
+  },
+  {
+    num: 2, en: 'THE COMPANION', zh: '陪月者', energy: '水',
+    tag: '情緒小雷達',
+    voice: '「雖然我不太說話，但我一直在聽你心裡的聲音。」',
+    copy: ['你還沒說話，牠已經靠過來了。', '你的情緒，是牠最敏感的語言。', '不需要解釋，不需要理由。', '牠選擇了你，就是全部。'],
+    crystals: [{ name: '月光石', role: '主石 · 細膩共振能量', icon: '🤍', imgUrl: '' }, { name: '粉晶', role: '副石 · 安撫敏感心靈', icon: '🌸', imgUrl: '' }],
+    crystalDesc: '細膩共振能量，安撫敏感心靈，讓陪伴化作隱形擁抱。',
+    traits: ['高度敏感', '善解人意', '溫柔黏人', '情感豐富', '天生療癒']
+  },
+  {
+    num: 3, en: 'THE SPARK', zh: '燃光者', energy: '火',
+    tag: '表情包王者',
+    voice: '「安靜是什麼？我生來就是要成為你的快樂焦點！」',
+    copy: ['牠走進哪裡，哪裡就亮了。', '精力、笑聲、永遠的新花樣。', '有時候你跟不上，但你不想讓牠慢下來。', '這份光，是牠給這個家的禮物。'],
+    crystals: [{ name: '黃水晶', role: '主石 · 激發豐盛活力', icon: '💛', imgUrl: '' }, { name: '虎眼石', role: '副石 · 讓快樂細胞閃耀', icon: '🟤', imgUrl: '' }],
+    crystalDesc: '激發豐盛活力，讓毛孩的創意與快樂細胞閃耀全家。',
+    traits: ['活力充沛', '創意豐富', '愛表達', '社交王', '永遠開心']
+  },
+  {
+    num: 4, en: 'THE ANCHOR', zh: '定石者', energy: '土',
+    tag: '榮譽守門員',
+    voice: '「規律的生活與安全感，由我為你守護。」',
+    copy: ['你動盪的時候，牠不動。', '你回家，牠在原位等你。', '不黏，不鬧，就是在。', '這種陪伴，比什麼都難得。'],
+    crystals: [{ name: '黑碧璽', role: '主石 · 強大接地能量', icon: '⚫', imgUrl: '' }, { name: '煙晶', role: '副石 · 守護忠誠平靜', icon: '🔘', imgUrl: '' }],
+    crystalDesc: '強大接地能量，建立穩定安全領域，守護忠誠與平靜。',
+    traits: ['極度忠誠', '穩定踏實', '有安全感', '固執可愛', '守護型']
+  },
+  {
+    num: 5, en: 'THE WANDERER', zh: '遊跡者', energy: '火',
+    tag: '越獄小天才',
+    voice: '「世界這麼大，我想跟你一起去探索所有的新奇。」',
+    copy: ['牠永遠想知道牆的另一邊是什麼。', '好奇是本性，探索是語言。', '你以為牠迷路了，牠只是走得比你遠。', '帶牠去，或者等牠回來。'],
+    crystals: [{ name: '海藍寶', role: '主石 · 自由流動能量', icon: '💙', imgUrl: '' }, { name: '天河石', role: '副石 · 讓旅程順遂平安', icon: '🔵', imgUrl: '' }],
+    crystalDesc: '自由流動能量，舒緩探險緊張，讓好奇旅程順遂平安。',
+    traits: ['好奇心旺盛', '愛探索', '自由靈魂', '適應力強', '永遠有新把戲']
+  },
+  {
+    num: 6, en: 'THE KEEPER', zh: '守護者', energy: '水',
+    tag: '暖心小棉襖',
+    voice: '「別難過，我會把最愛的呼嚕與親親都分給你。」',
+    copy: ['你累了，牠比你先感覺到。', '你難過，牠悄悄靠近，什麼都不說。', '牠照顧你的方式，從不大聲。', '溫柔，是牠最深的力量。'],
+    crystals: [{ name: '粉玉髓', role: '主石 · 溫和愛之能量', icon: '🌷', imgUrl: '' }, { name: '薔薇輝石', role: '副石 · 強化療癒本能', icon: '🌹', imgUrl: '' }],
+    crystalDesc: '溫和愛之能量，強化療癒本能，成為家中最暖避風港。',
+    traits: ['天生療癒', '溫柔守護', '高度同理', '愛撒嬌', '家庭型']
+  },
+  {
+    num: 7, en: 'THE MYSTIC', zh: '靜靈', energy: '風',
+    tag: '獨處大師',
+    voice: '「我不是不合群，我只是在思考關於宇宙和你的祕密。」',
+    copy: ['牠不輕易讓人靠近。', '但選擇了你，就是一生。', '牠的眼裡有某種古老的東西。', '像是早就見過你了。'],
+    crystals: [{ name: '紫水晶', role: '主石 · 深邃直覺能量', icon: '💜', imgUrl: '' }, { name: '拉長石', role: '副石 · 智慧優雅並行', icon: '🔮', imgUrl: '' }],
+    crystalDesc: '深邃直覺能量，守護安靜思考空間，智慧與優雅並行。',
+    traits: ['神秘深邃', '高度直覺', '選擇性親近', '有靈性', '獨立自主']
+  },
+  {
+    num: 8, en: 'THE FORCE', zh: '力源者', energy: '土',
+    tag: '零食收割機',
+    voice: '「氣場全開，那個最貴的罐罐一看就知道是我的。」',
+    copy: ['牠走進房間，所有人都感覺到了。', '這不是霸道，是天生的氣場。', '牠保護你的方式，沉默而確定。', '有牠在，你不需要害怕。'],
+    crystals: [{ name: '黑曜石', role: '主石 · 顯化豐盛權威', icon: '🖤', imgUrl: '' }, { name: '石榴石', role: '副石 · 守護強健體魄', icon: '🔴', imgUrl: '' }],
+    crystalDesc: '顯化豐盛與權威，守護強健體魄，展現霸氣王者風範。',
+    traits: ['氣場強大', '意志力強', '天生保護者', '霸氣側漏', '豐盛能量']
+  },
+  {
+    num: 9, en: 'THE SAGE', zh: '月智者', energy: '光',
+    tag: '佛系小可愛',
+    voice: '「萬物皆有愛，不管發生什麼事，我都會溫柔包容你。」',
+    copy: ['牠不爭，不急，什麼都看得開。', '和牠在一起，你也慢慢變得安靜。', '牠見過的，比你以為的多。', '這份平靜，是牠給你最好的東西。'],
+    crystals: [{ name: '白水晶', role: '主石 · 純淨圓滿能量', icon: '🤍', imgUrl: '' }, { name: '透石膏', role: '副石 · 讓和平光芒照耀', icon: '⬜', imgUrl: '' }],
+    crystalDesc: '純淨圓滿能量，提升心靈寬度，讓和平光芒照耀世界。',
+    traits: ['超然平靜', '充滿智慧', '慈悲為懷', '圓滿包容', '靈魂導師']
+  },
+  {
+    num: 11, en: 'THE SEER', zh: '感知者', energy: '風', master: true,
+    tag: '靈感小精靈',
+    voice: '「你的每一個念頭，我都透過靈魂的頻道接收到了。」',
+    copy: ['你難過之前，牠已經知道了。', '牠感應到的，你說不清楚。', '這份敏感不是負擔，是禮物。', '牠用另一種方式，看見你。'],
+    crystals: [{ name: '頂級月光石', role: '主石 · 強化超凡直覺', icon: '🤍', imgUrl: '' }, { name: '拉長石', role: '副石 · 靈魂導師之石', icon: '🔮', imgUrl: '' }],
+    crystalDesc: '強化超凡直覺與靈感，讓毛孩成為您最神祕的靈魂導師。',
+    traits: ['超強直覺', '心電感應', '靈性天賦', '高度敏感', '主數靈魂']
+  },
+  {
+    num: 22, en: 'THE ARCHITECT', zh: '造夢者', energy: '土', master: true,
+    tag: '鎮宅神獸',
+    voice: '「穩穩地待在你身邊，就是我對這個家最強大的建築。」',
+    copy: ['連玩耍都認真的靈魂。', '穩重，有氣度，不慌不忙。', '牠是稀有的，你也知道。', '遇見牠，是你的運氣。'],
+    crystals: [{ name: '黑碧璽', role: '主石 · 極致穩定能量', icon: '⚫', imgUrl: '' }, { name: '虎眼石', role: '副石 · 鎮守家宅能量', icon: '🟤', imgUrl: '' }],
+    crystalDesc: '極致穩定與實現力，將能量轉化為恆久守護，鎮守家宅能量。',
+    traits: ['建造大師', '宏觀視野', '腳踏實地', '極度稀有', '主數靈魂']
+  },
+  {
+    num: 33, en: 'THE HEALER', zh: '沐癒者', energy: '水', master: true,
+    tag: '療癒聖母',
+    voice: '「我願意用所有的溫柔，去化解這世間對你所有的疲憊。」',
+    copy: ['牠療癒你，也療癒遇見牠的每一個人。', '不需要努力，溫柔就是牠的存在方式。', '這是主數中最有愛的靈魂。', '你不是養了牠，是牠選擇了來陪你。'],
+    crystals: [{ name: '馬達加斯加粉晶', role: '主石 · 宇宙奉獻能量', icon: '🌸', imgUrl: '' }, { name: '白水晶', role: '副石 · 治癒所有靈魂', icon: '🤍', imgUrl: '' }],
+    crystalDesc: '宇宙級奉獻能量，散發無盡慈悲與愛，治癒所有觸及的靈魂。',
+    traits: ['無限療癒', '奉獻精神', '最溫柔的愛', '治癒所有人', '主數靈魂']
+  },
+];
+
+// Build grid
+const grid = document.getElementById('numGrid');
+data.forEach((d, i) => {
+  const card = document.createElement('div');
+  card.className = 'num-card' + (d.master ? ' master' : '');
+  card.style.animationDelay = `${0.05 * i + 0.3}s`;
+  card.onclick = () => openDetail(d);
+  card.innerHTML = `
+    ${d.master ? '<span class="master-badge">主數</span>' : ''}
+    <div class="num-number">${d.num}</div>
+    <div class="num-en">${d.en}</div>
+    <div class="num-zh">${d.zh}</div>
+    <span class="num-energy ${energyClass[d.energy]}">${d.energy}能量</span>
+  `;
+  grid.appendChild(card);
+});
+
+// Open detail
+function openDetail(d) {
+  document.getElementById('dNum').textContent = d.num;
+  document.getElementById('dEn').textContent = d.en;
+  document.getElementById('dZh').textContent = d.zh;
+
+  const eTag = document.getElementById('dEnergy');
+  eTag.textContent = d.energy + '能量';
+  eTag.className = 'detail-energy-tag ' + energyClass[d.energy];
+
+  // 加入角色標籤和內心獨白
+  const voiceHtml = d.voice ? `
+    <div style="background:var(--bg2);border-radius:12px;padding:16px 20px;margin-bottom:24px;border-left:3px solid var(--gold);">
+      <p style="font-size:9px;letter-spacing:2px;color:var(--gold);margin-bottom:8px;">${d.tag} · 內心獨白</p>
+      <p style="font-size:14px;color:var(--deep);line-height:1.8;">${d.voice}</p>
+    </div>` : '';
+
+  document.getElementById('dCopy').innerHTML = voiceHtml + d.copy.map(l => `<p>${l}</p>`).join('');
+
+  document.getElementById('dCrystals').innerHTML = d.crystals.map(c => `
+    <div class="crystal-item">
+      <div class="crystal-img-wrap">
+        ${c.imgUrl
+          ? `<img src="${c.imgUrl}" alt="${c.name}" class="crystal-img">`
+          : `<div class="crystal-img-placeholder">
+               <span class="crystal-icon">${c.icon}</span>
+               <span class="crystal-img-label">圖片即將上線</span>
+             </div>`
+        }
+      </div>
+      <div class="crystal-name">${c.name}</div>
+      <div class="crystal-role">${c.role}</div>
+    </div>
+  `).join('');
+
+  // 加入水晶功能描述
+  const crystalDescEl = document.getElementById('dCrystalDesc');
+  if (crystalDescEl && d.crystalDesc) {
+    crystalDescEl.textContent = d.crystalDesc;
+  }
+
+  document.getElementById('dTraits').innerHTML = d.traits.map(t =>
+    `<span class="trait-tag">${t}</span>`
+  ).join('');
+
+  document.getElementById('overlay').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closePanel() {
+  document.getElementById('overlay').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+function closeDetail(e) {
+  if (e.target === document.getElementById('overlay')) closePanel();
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closePanel();
+});
+</script>
+</body>
+</html>
